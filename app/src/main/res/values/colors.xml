@@ -22,4 +22,9 @@
     <color name="bottom_nav_selected_icon">#0b7ee3</color>
     <color name="bottom_nav_unselected_icon">#92b0cd</color>
 
+    <color name="gradient_start_color">#2762da</color>
+    <color name="gradient_center_color">#1676ee</color>
+    <color name="gradient_end_color">#0588fa</color>
+
+
 </resources>
