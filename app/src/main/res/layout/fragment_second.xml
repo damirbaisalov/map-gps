@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="top"
         android:orientation="vertical">
 
@@ -21,12 +21,28 @@
             android:background="@color/horizontal_line_color"
             />
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Second fragment"
-        android:gravity="center"/>
+            <com.yandex.mapkit.mapview.MapView
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/user_location_map_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|top"
+                android:layout_margin="15dp"
+                android:background="@drawable/bg_my_location_button"
+                android:elevation="2dp"
+                android:padding="7dp"
+                android:src="@drawable/ic_my_location" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
