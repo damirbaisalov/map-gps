@@ -14,14 +14,13 @@ import android.location.LocationManager
 import android.location.LocationProvider
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -29,7 +28,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.getSystemService
+import androidx.fragment.app.FragmentManager
+import com.example.map_gps.listener.StepListener
+import com.example.map_gps.utils.StepDetector
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
+import java.lang.Math.ceil
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +47,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FirstFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
+class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface, StepListener, DialogFragmentSteps.OnInputSelected {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -49,18 +55,10 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
     private lateinit var rootView: View
     private lateinit var pLauncher: ActivityResultLauncher<String>
 
-
-    private var sensorManager: SensorManager? = null
-    private var stepSensor: Sensor? = null
-
     private lateinit var locationManager: LocationManager
     private var lastLocation: Location? =null
     private lateinit var myLocListener: MyLocListener
     private var distance: Float = 0f
-
-    private var running = false
-    private var totalSteps = 0f
-    private var previousTotalSteps = 0f
 
     private lateinit var tvStepsTaken: TextView
     private lateinit var progressBar: CircularProgressBar
@@ -69,6 +67,59 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
     private lateinit var stopButton: Button
     private lateinit var resumeButton: Button
     private lateinit var resetButton: Button
+
+    private lateinit var kmTextView: TextView
+    private lateinit var kkalTextView: TextView
+//    private lateinit var timeWalkTextView: TextView
+    private lateinit var chronometer: Chronometer
+    private var running = false
+    private var pauseOffSet: Long = 0
+
+    //PEDOMETER
+    private var simpleStepDetector: StepDetector? = null
+    private var sensorManager: SensorManager? = null
+    private var numSteps: Int = 0
+    private var previousSteps: Int = 0
+
+    private lateinit var stepsToChangeLinearLayout: LinearLayout
+    private lateinit var totalMaxStepsTv: TextView
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event!!.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            simpleStepDetector!!.updateAccelerometer(event.timestamp, event.values[0], event.values[1], event.values[2])
+        }
+    }
+
+    override fun step(timeNs: Long) {
+        numSteps++
+        previousSteps++
+
+        if (previousSteps==10) {
+
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+
+            val kmTextViewValue = kmTextView.text.toString().toFloat()
+
+            val calculatedKm = kmTextViewValue + 0.01
+            var formattedCalculatedKm =  df.format(calculatedKm)
+            formattedCalculatedKm = formattedCalculatedKm.replace(",", ".")
+
+            kmTextView.text = formattedCalculatedKm
+
+            Log.d("km_v", kmTextView.text.toString())
+
+            previousSteps = 0
+        }
+
+        tvStepsTaken.text = numSteps.toString()
+        progressBar.apply {
+            setProgressWithAnimation(numSteps.toFloat())
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,44 +139,88 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
         init()
 
 
-//        loadData()
-//        resetSteps()
-//        sensorManager = rootView.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
         return rootView
     }
 
     private fun init() {
+        totalMaxStepsTv = rootView.findViewById(R.id.total_max_steps_tv)
+        stepsToChangeLinearLayout = rootView.findViewById(R.id.steps_to_change_linear_layout)
+        stepsToChangeLinearLayout.setOnClickListener {
+            val dialog = DialogFragmentSteps()
+            dialog.show(childFragmentManager, "dialog_fragment_steps")
+        }
+
         startButton = rootView.findViewById(R.id.fragment_first_start_button)
         stopButton = rootView.findViewById(R.id.fragment_first_stop_button)
         resumeButton = rootView.findViewById(R.id.fragment_first_resume_button)
         resetButton = rootView.findViewById(R.id.fragment_first_reset_button)
 
+        kmTextView =rootView.findViewById(R.id.road_km_num_text_view)
+        kkalTextView =rootView.findViewById(R.id.road_burnt_kal_num_text_view)
+//        timeWalkTextView =rootView.findViewById(R.id.road_time_num_text_view)
+        chronometer = rootView.findViewById(R.id.road_time_chronometer)
+        chronometer.format = "%s"
+        chronometer.base = SystemClock.elapsedRealtime()
+
         tvStepsTaken = rootView.findViewById(R.id.tv_steps_taken)
         progressBar = rootView.findViewById(R.id.circular_progressbar)
 
-        locationManager = rootView.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        // Get an instance of the SensorManager
         sensorManager = rootView.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        stepSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        simpleStepDetector = StepDetector()
+        simpleStepDetector!!.registerListener(this)
 
+        locationManager = rootView.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         myLocListener = MyLocListener(this)
         registerPermissionListener()
         checkPermission()
 
         startButton.setOnClickListener {
             startButtonClicked()
+            numSteps = 0
+            sensorManager!!.registerListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST)
+
+            if (!running) {
+                chronometer.base = SystemClock.elapsedRealtime() - pauseOffSet
+                chronometer.start()
+                running = true
+            }
         }
 
         stopButton.setOnClickListener {
             stopButtonClicked()
+            sensorManager!!.unregisterListener(this)
+
+            if (running) {
+                chronometer.stop()
+                pauseOffSet = SystemClock.elapsedRealtime() - chronometer.base
+                running = false
+            }
         }
 
         resumeButton.setOnClickListener {
             resumeButtonClicked()
+            sensorManager!!.registerListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST)
+
+            if (!running) {
+                chronometer.base = SystemClock.elapsedRealtime() - pauseOffSet
+                chronometer.start()
+                running = true
+            }
         }
 
         resetButton.setOnClickListener {
             resetButtonClicked()
+            numSteps = 0
+            tvStepsTaken.text = "0"
+            progressBar.apply {
+                setProgressWithAnimation(0f)
+            }
+            kmTextView.text = ("0.00")
+            sensorManager!!.unregisterListener(this)
+
+            chronometer.base = SystemClock.elapsedRealtime()
+            pauseOffSet = 0
         }
 
     }
@@ -135,11 +230,12 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
             checkSelfPermission(rootView.context, ACCESS_FINE_LOCATION)
                     == PERMISSION_GRANTED ->{
                         Toast.makeText(rootView.context, "ACCESS_FINE_LOCATION run", Toast.LENGTH_LONG).show()
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,2,1F,myLocListener)
+//                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5,3F,myLocListener)
                     }
 
             shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) -> {
                 Toast.makeText(rootView.context, "we need your permission", Toast.LENGTH_LONG).show()
+                pLauncher.launch(ACCESS_FINE_LOCATION)
             }
 
             else -> {
@@ -162,18 +258,17 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
     }
 
     override fun onLocationChanged(loc: Location) {
-        if (loc.hasSpeed() && lastLocation != null) {
-
-            distance += lastLocation!!.distanceTo(loc).toInt()
-
-        }
-
-        lastLocation = loc
-        tvStepsTaken.text = distance.toInt().toString()
-        progressBar.apply {
-            setProgressWithAnimation(distance)
-        }
-
+//        if (loc.hasSpeed() && lastLocation != null) {
+//
+//            distance += lastLocation!!.distanceTo(loc).toInt()
+//
+//        }
+//
+//        lastLocation = loc
+//        tvStepsTaken.text = distance.toInt().toString()
+//        progressBar.apply {
+//            setProgressWithAnimation(distance)
+//        }
     }
 
     private fun startButtonClicked() {
@@ -224,76 +319,8 @@ class FirstFragment : Fragment(), SensorEventListener, LocListenerInterface {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        running = true
-////        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-//
-//        if (stepSensor == null) {
-//            Toast.makeText(rootView.context, "no sensor detected on this device", Toast.LENGTH_SHORT).show()
-//        } else {
-//            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
-//        }
+    override fun sendInput(input: String) {
+        progressBar.progressMax = input.toFloat()
+        totalMaxStepsTv.text = ("/$input")
     }
-
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-    }
-
-    override fun onSensorChanged(event: SensorEvent?) {
-        if (running) {
-//            val sensor = event?.sensor
-//            val values: FloatArray = event!!.values
-//            var value = -1
-//            if (values.size>0) {
-//                value = values[0].toInt()
-//            }
-//
-//            if (sensor?.type == Sensor.TYPE_STEP_DETECTOR) {
-//                steps++
-//            }
-
-
-//            totalSteps = event!!.values[0]
-//            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
-//            tvStepsTaken.text = ("$currentSteps")
-//
-//            progressBar.apply {
-//                setProgressWithAnimation(currentSteps.toFloat())
-//            }
-        }
-    }
-
-
-//    private fun resetSteps() {
-//        tvStepsTaken.setOnClickListener {
-//            Toast.makeText(rootView.context, "Long tap to clear", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        tvStepsTaken.setOnLongClickListener {
-//            previousTotalSteps = totalSteps
-//            tvStepsTaken.text = 0.toString()
-//            saveData()
-//
-//            true
-//        }
-//    }
-
-//    private fun saveData() {
-//        val sf = rootView.context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-//        val editor: SharedPreferences.Editor = sf.edit()
-//
-//
-//        editor.putFloat("key1", previousTotalSteps)
-//        editor.apply()
-//    }
-//
-//    private fun loadData() {
-//        val sf = rootView.context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-//        val savedNumber = sf.getFloat("key1", 0f)
-//        Log.d("firstFragment","$savedNumber")
-//        previousTotalSteps = savedNumber
-//
-//    }
 }

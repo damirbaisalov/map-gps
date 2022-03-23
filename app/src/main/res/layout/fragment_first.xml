@@ -48,7 +48,7 @@
                     android:id="@+id/road_km_num_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@string/km_initial_values"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="@color/dark_text_color"
@@ -59,7 +59,7 @@
                     android:id="@+id/road_km_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="km"
+                    android:text="Км"
                     android:gravity="center"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
@@ -83,7 +83,7 @@
                     android:id="@+id/road_burnt_kal_num_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="0.0"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="@color/dark_text_color"
@@ -94,7 +94,7 @@
                     android:id="@+id/road_burnt_kal_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="kkal"
+                    android:text="Ккал"
                     android:gravity="center"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
@@ -114,16 +114,18 @@
                     android:layout_gravity="center"
                     android:src="@drawable/time"/>
 
-                <TextView
-                    android:id="@+id/road_time_num_text_view"
+
+                <Chronometer
+                    android:id="@+id/road_time_chronometer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="00:00:00"
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="@color/dark_text_color"
                     android:textSize="18sp"
                     />
+
 
                 <TextView
                     android:id="@+id/road_time_text_view"
@@ -163,6 +165,7 @@
 
 
             <LinearLayout
+                android:id="@+id/steps_to_change_linear_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -178,7 +181,7 @@
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/total_max"
+                    android:id="@+id/total_max_steps_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="/150"
