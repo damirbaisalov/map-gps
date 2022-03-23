@@ -3,7 +3,6 @@ package com.example.map_gps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.PointF
-import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
