@@ -234,6 +234,7 @@ class FirstViewModel(application: Application): AndroidViewModel(application), S
     override fun step(timeNs: Long) {
         numSteps++
         previousSteps++
+        calculateKkalLive(numSteps,time)
 
         if (previousSteps==10) {
 
@@ -273,7 +274,6 @@ class FirstViewModel(application: Application): AndroidViewModel(application), S
             saveUserSteps(numSteps.toString())
             saveLastSteps(numSteps)
             saveProgressState(numSteps.toFloat())
-            calculateKkalLive(numSteps,time)
         }
     }
 
