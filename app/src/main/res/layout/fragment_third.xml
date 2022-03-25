@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="top"
         android:orientation="vertical">
 
@@ -21,12 +21,136 @@
             android:background="@color/horizontal_line_color"
             />
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="third fragment"
-        android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_white_corner_radius"
+                android:layout_marginHorizontal="20dp"
+                android:elevation="4dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/height_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/view_clicked_ripple"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Рост"
+                                android:textColor="@color/dark_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_weight="2"
+                                android:layout_gravity="start"
+                                />
+
+                            <TextView
+                                android:id="@+id/third_fragment_height_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="175 см"
+                                android:textSize="14sp"
+                                android:textColor="@color/primary_app"
+                                android:layout_gravity="end"
+                                />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Нужно для расчета калорий"
+                            android:textSize="12sp"
+                            android:layout_weight="2"
+                            android:layout_gravity="start"
+                            />
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginHorizontal="10dp"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/weight_linear_layout"
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/view_clicked_ripple"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Вес"
+                                android:textColor="@color/dark_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_weight="2"
+                                android:layout_gravity="start"
+                                />
+
+                            <TextView
+                                android:id="@+id/third_fragment_weight_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="70 кг"
+                                android:textSize="14sp"
+                                android:textColor="@color/primary_app"
+                                android:layout_gravity="end"
+                                />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Нужно для расчета калорий"
+                            android:textSize="12sp"
+                            android:layout_weight="2"
+                            android:layout_gravity="start"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

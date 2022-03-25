@@ -4,12 +4,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+        }
         applicationId "com.example.map_gps"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -51,4 +54,9 @@ dependencies {
     // Облегчённая библиотека, содержит только карту, слой пробок,
     // LocationManager, UserLocationLayer и возможность скачивать оффлайн карты (только в платной версии).
     implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha05"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-alpha05"
 }
