@@ -90,12 +90,13 @@ class SecondFragment : Fragment(), UserLocationObjectListener, CameraListener {
                 rootView.context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED ->{
-                Toast.makeText(rootView.context, "ACCESS_FINE_LOCATION run", Toast.LENGTH_LONG).show()
+//                Toast.makeText(rootView.context, "ACCESS_FINE_LOCATION run", Toast.LENGTH_LONG).show()
                 onMapReady()
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                Toast.makeText(rootView.context, "we need your permission", Toast.LENGTH_LONG).show()
+//                Toast.makeText(rootView.context, "we need your permission", Toast.LENGTH_LONG).show()
+                pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
 
             else -> {
