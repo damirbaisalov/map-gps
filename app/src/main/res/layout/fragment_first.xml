@@ -22,7 +22,6 @@
             android:background="@color/horizontal_line_color"
             />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,9 +113,8 @@
                     android:layout_gravity="center"
                     android:src="@drawable/time"/>
 
-
-                <Chronometer
-                    android:id="@+id/road_time_chronometer"
+                <TextView
+                    android:id="@+id/road_time_num_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="00:00:00"
@@ -125,7 +123,6 @@
                     android:textColor="@color/dark_text_color"
                     android:textSize="18sp"
                     />
-
 
                 <TextView
                     android:id="@+id/road_time_text_view"
@@ -140,7 +137,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -162,7 +158,6 @@
                 app:cpb_round_border="false"
                 android:layout_gravity="center"
                 app:cpb_progress_max="150"/>
-
 
             <LinearLayout
                 android:id="@+id/steps_to_change_linear_layout"
@@ -190,7 +185,6 @@
                     android:gravity="center"/>
 
             </LinearLayout>
-
 
         </FrameLayout>
 
@@ -254,8 +248,6 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </FrameLayout>

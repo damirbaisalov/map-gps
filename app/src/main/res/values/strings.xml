@@ -6,4 +6,7 @@
     <string name="Profile">Профиль</string>
     <string name="gps">GPS</string>
     <string name="km_initial_values">0.00</string>
+    <string name="height_interval_rule">Рост в интервале от 20 до 240 см</string>
+    <string name="weight_interval_rule">Вес в интервале от 20 до 300 см</string>
+
 </resources>

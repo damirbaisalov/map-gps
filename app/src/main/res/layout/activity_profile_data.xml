@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="30dp"
+    tools:context=".ProfileDataActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_app"
+        android:text="Мой профиль"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Для точности расчетов укажите точные данные."
+        android:gravity="center"
+        android:textColor="@color/secondary_app"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/secondary_app"
+        android:layout_marginVertical="30dp"
+        android:layout_marginHorizontal="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_white_corner_radius">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Рост"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/secondary_app"
+            />
+
+        <EditText
+            android:id="@+id/set_height_activity_profile_data_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0 см"
+            android:textColor="@color/dark_text_color"
+            android:textColorHint="@color/dark_text_color"
+            android:backgroundTint="@color/secondary_app"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="20sp"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:elevation="4dp"
+        android:background="@drawable/bg_white_corner_radius">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вес"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/secondary_app"
+            />
+
+        <EditText
+            android:id="@+id/set_weight_activity_profile_data_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0 кг"
+            android:textSize="20sp"
+            android:textColor="@color/dark_text_color"
+            android:textColorHint="@color/dark_text_color"
+            android:backgroundTint="@color/secondary_app"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/activity_profile_data_height_warning_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/height_interval_rule"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="5dp"
+            android:textColor="@android:color/holo_red_light"
+            />
+
+        <TextView
+            android:id="@+id/activity_profile_data_weight_warning_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weight_interval_rule"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"
+            android:textColor="@android:color/holo_red_light"
+            />
+
+        <Button
+            android:id="@+id/activity_profile_data_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="НАЧАЛО"
+            android:enabled="false"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_activity_profile_data_button_continue"/>
+
+    </LinearLayout>
+
+</LinearLayout>
