@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">map-gps</string>
+    <string name="app_name">Walkeeper</string>
 
     <string name="Home">Шагомер</string>
     <string name="gps">GPS</string>
