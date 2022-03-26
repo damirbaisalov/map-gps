@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">map-gps</string>
+
+    <string name="Home">Шагомер</string>
+    <string name="gps">GPS</string>
+    <string name="Profile">Профиль</string>
+
+    <string name="km_initial_values">0.00</string>
+    <string name="kkal_initial_values">0.0</string>
+    <string name="time_walking_initial_values">00:00:00</string>
+
+    <string name="height_interval_rule">Бой аралығы 20 см - 240 см</string>
+    <string name="weight_interval_rule">Салмақ аралығы 20 см - 300 см</string>
+
+    <string name="time_walking">Жүріс уақыты</string>
+
+    <string name="start_button_text">Бастау</string>
+    <string name="pause_button_text">Пауза</string>
+    <string name="resume_button_text">Жалғастыру</string>
+    <string name="reset_button_text">Қалпына келтіру</string>
+
+    <string name="dialog_fragment_steps_title">Қадамдар санын енгізіңіз</string>
+    <string name="dialog_fragment_steps_num_steps_edit_text">Қадамдар саны</string>
+    <string name="ok_button_text">OK</string>
+
+    <string name="second_fragment_gps_toolbar_title_text">GPS</string>
+
+    <string name="fragment_third_gender_text">Жыныс</string>
+
+    <string name="fragment_third_man_text">Еркек</string>
+    <string name="fragment_third_woman_text">Әйел</string>
+
+    <string name="fragment_third_height_text">Бой</string>
+    <string name="fragment_third_weight_text">Салмақ</string>
+
+    <string name="fragment_third_kkal_hint">Калория санын есептеу үшін қажет</string>
+
+    <string name="fragment_third_language_hint_text_view">Қолданба тілін өзгерту</string>
+    <string name="fragment_third_language_title_text_view">Тіл</string>
+
+    <string name="dialog_fragment_height_title_text">Бойыңызды енгізіңіз</string>
+    <string name="dialog_fragment_weight_title_text">Салмағыңызды енгізіңіз</string>
+
+    <string name="save_button_text">Сақтау</string>
+
+    <string name="activity_gender_choose_gender_title_text">Выберите пол</string>
+    <string name="activity_gender_choose_gender_description_text">Это нужно для данных в профиле.</string>
+    <string name="activity_gender_next_button_text">ДАЛЬШЕ</string>
+
+    <string name="activity_profile_data_description_text">Для точности расчетов укажите точные данные.</string>
+    <string name="activity_profile_data_height_hint_text">0 см</string>
+    <string name="activity_profile_data_weight_hint_text">0 кг</string>
+    <string name="activity_profile_data_start_button_text">НАЧАЛО</string>
+
+    <string-array name="Languages">
+        <item>Русский</item>
+        <item>Қазақша</item>
+    </string-array>
+
+    <string-array name="Genders">
+        <item>Еркек</item>
+        <item>Әйел</item>
+    </string-array>
+
+</resources>

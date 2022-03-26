@@ -24,12 +24,12 @@
     <string name="dialog_fragment_steps_num_steps_edit_text">Число шагов</string>
     <string name="ok_button_text">OK</string>
 
-    <string name="second_fragment_gps_toolbar_title_text">Местоположение</string>
+    <string name="second_fragment_gps_toolbar_title_text">GPS</string>
 
     <string name="fragment_third_gender_text">Пол</string>
 
     <string name="fragment_third_man_text">Мужской</string>
-    <string name="fragment_third_womanman_text">Женский</string>
+    <string name="fragment_third_woman_text">Женский</string>
 
     <string name="fragment_third_height_text">Рост</string>
     <string name="fragment_third_weight_text">Вес</string>
@@ -56,6 +56,11 @@
     <string-array name="Languages">
         <item>Русский</item>
         <item>Қазақша</item>
+    </string-array>
+
+    <string-array name="Genders">
+        <item>Мужской</item>
+        <item>Женский</item>
     </string-array>
 
 </resources>

@@ -74,14 +74,18 @@
                                 android:layout_gravity="start"
                                 />
 
-                            <TextView
-                                android:id="@+id/third_fragment_gender_tv"
+                            <Spinner
+                                android:id="@+id/third_fragment_gender_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:spinnerMode="dropdown"
+                                />
+
+                            <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/fragment_third_man_text"
-                                android:textSize="14sp"
-                                android:textColor="@color/primary_app"
-                                android:layout_gravity="end"
+                                android:src="@drawable/ic_drop_down_arrow"
                                 />
 
                         </LinearLayout>
@@ -133,6 +137,12 @@
                                 android:layout_gravity="end"
                                 />
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_drop_down_arrow"
+                                />
+
                         </LinearLayout>
 
                         <TextView
@@ -172,7 +182,7 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="Вес"
+                                android:text="@string/fragment_third_weight_text"
                                 android:textColor="@color/dark_text_color"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -188,6 +198,12 @@
                                 android:textSize="14sp"
                                 android:textColor="@color/primary_app"
                                 android:layout_gravity="end"
+                                />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_drop_down_arrow"
                                 />
 
                         </LinearLayout>
@@ -245,7 +261,6 @@
                                 />
 
                             <ImageView
-                                android:id="@+id/fragment_third_drop_down_arrow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_drop_down_arrow"
@@ -262,12 +277,9 @@
                             android:layout_gravity="start"
                             />
 
-
                     </LinearLayout>
 
-
                 </LinearLayout>
-
 
             </LinearLayout>
 

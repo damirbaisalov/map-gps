@@ -19,7 +19,7 @@ class GenderActivity : AppCompatActivity() {
     private lateinit var womanDoneImageView: ImageView
     private lateinit var manDoneImageView: ImageView
 
-    private var gender: String = "default"
+    private var gender: Int = 3
 
     private lateinit var continueButton: Button
 
@@ -27,7 +27,7 @@ class GenderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gender)
 
-        if (getGenderSharedPreferences()!="default"){
+        if (getGenderSharedPreferences()!=3){
             val intent = Intent(this@GenderActivity, ProfileDataActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
@@ -45,7 +45,7 @@ class GenderActivity : AppCompatActivity() {
         continueButton = findViewById(R.id.activity_gender_continue_button)
 
         womanImageView.setOnClickListener {
-            gender = "Женский"
+            gender = 1
 
             womanDoneImageView.visibility = View.VISIBLE
             manDoneImageView.visibility = View.INVISIBLE
@@ -58,7 +58,7 @@ class GenderActivity : AppCompatActivity() {
         }
 
         manImageView.setOnClickListener {
-            gender = "Мужской"
+            gender = 0
 
             manDoneImageView.visibility = View.VISIBLE
             womanDoneImageView.visibility = View.INVISIBLE
@@ -83,19 +83,19 @@ class GenderActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun saveGenderSharedPreferences(gender: String) {
+    private fun saveGenderSharedPreferences(gender: Int) {
         val sharedPref = this.getSharedPreferences(MY_APP_USER_ACTIVITY, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.putString(USER_GENDER, gender)
+        editor.putInt(USER_GENDER, gender)
         editor.apply()
     }
 
-    private fun getGenderSharedPreferences(): String {
+    private fun getGenderSharedPreferences(): Int {
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(
             MY_APP_USER_ACTIVITY,
             Context.MODE_PRIVATE
         )
 
-        return sharedPreferences.getString(USER_GENDER, "default") ?: "default"
+        return sharedPreferences.getInt(USER_GENDER, 3)
     }
 }

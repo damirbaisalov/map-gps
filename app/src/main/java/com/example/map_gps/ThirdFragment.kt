@@ -1,6 +1,7 @@
 package com.example.map_gps
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.navigation.fragment.findNavController
-import com.example.map_gps.DialogFragmentHeight
-import com.example.map_gps.R
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,9 +39,10 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
     private lateinit var weightTextView: TextView
 
     private lateinit var genderImageView: ImageView
-    private lateinit var genderTextView: TextView
 
     private lateinit var spinner: Spinner
+    private lateinit var genderSpinner: Spinner
+    private lateinit var locale: Locale
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,15 +65,7 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
     }
 
     private fun init() {
-
         genderImageView = rootView.findViewById(R.id.fragment_third_gender_image_view)
-        if (getGenderSharedPreferences()=="Мужской")
-            genderImageView.setImageResource(R.drawable.man)
-        else
-            genderImageView.setImageResource(R.drawable.woman)
-
-        genderTextView = rootView.findViewById(R.id.third_fragment_gender_tv)
-        genderTextView.text = getGenderSharedPreferences()
 
         heightLinearLayout = rootView.findViewById(R.id.height_linear_layout)
         heightLinearLayout.setOnClickListener {
@@ -88,6 +83,27 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
         weightTextView.text = (getSavedWeight()+" кг")
 
 
+        genderSpinner = rootView.findViewById(R.id.third_fragment_gender_spinner)
+        ArrayAdapter.createFromResource(
+            rootView.context,
+            R.array.Genders,
+            R.layout.spinner_item_selected
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(R.layout.my_drop_down_item)
+            // Apply the adapter to the spinner
+            genderSpinner.adapter = adapter
+        }
+        if (getGenderSharedPreferences()==0){
+            genderImageView.setImageResource(R.drawable.man)
+            genderSpinner.setSelection(0, true)
+        }
+        else
+        {
+            genderImageView.setImageResource(R.drawable.woman)
+            genderSpinner.setSelection(1, true)
+        }
+        genderSpinner.onItemSelectedListener = this
 
         spinner = rootView.findViewById(R.id.third_fragment_spinner)
         ArrayAdapter.createFromResource(
@@ -102,15 +118,50 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
         }
         spinner.setSelection(getLanguageSharedPreferences(), true)
         spinner.onItemSelectedListener = this
+
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        Toast.makeText(rootView.context, position.toString(), Toast.LENGTH_LONG).show()
-        saveUserLanguage(position)
+
+        if (parent != null) {
+            when(parent.id) {
+                R.id.third_fragment_gender_spinner -> {
+                    saveGenderSharedPreferences(position)
+                    when(position) {
+                        0 -> genderImageView.setImageResource(R.drawable.man)
+                        1 -> genderImageView.setImageResource(R.drawable.woman)
+                    }
+                }
+                R.id.third_fragment_spinner -> {
+                    saveUserLanguage(position)
+                    when(position) {
+                        0 -> setLocale("en-us")
+                        1 -> setLocale("kk")
+                    }
+                }
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
+    }
+
+
+    private fun setLocale(languageName: String) {
+        locale = Locale(languageName)
+        val res = resources
+        val dm = res.displayMetrics
+        val conf = res.configuration
+        conf.locale = locale
+        res.updateConfiguration(conf, dm)
+
+//        val refresh = Intent(rootView.context, MainActivity::class.java)
+//        refresh.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        startActivity(refresh)
+//        requireActivity().finish()
+
+        activity?.recreate()
     }
 
     override fun sendInputHeight(input: String) {
@@ -171,13 +222,20 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
         return sharedPreferences.getString(USER_WEIGHT, "0") ?: "0"
     }
 
-    private fun getGenderSharedPreferences(): String {
+    private fun saveGenderSharedPreferences(gender: Int) {
+        val sharedPref = rootView.context.getSharedPreferences(MY_APP_USER_ACTIVITY, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putInt(USER_GENDER, gender)
+        editor.apply()
+    }
+
+    private fun getGenderSharedPreferences(): Int {
         val sharedPreferences: SharedPreferences = rootView.context.getSharedPreferences(
             MY_APP_USER_ACTIVITY,
             Context.MODE_PRIVATE
         )
 
-        return sharedPreferences.getString(USER_GENDER, "default") ?: "default"
+        return sharedPreferences.getInt(USER_GENDER, 3)
     }
 
     companion object {
@@ -199,5 +257,4 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
                 }
             }
     }
-
 }
