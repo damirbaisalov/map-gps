@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.navigation.fragment.findNavController
 import com.example.map_gps.DialogFragmentHeight
 import com.example.map_gps.R
 
@@ -22,7 +22,8 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ThirdFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFragmentWeight.OnInputSelected{
+const val USER_LANGUAGE = "USER_LANGUAGE"
+class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFragmentWeight.OnInputSelected, AdapterView.OnItemSelectedListener {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -35,6 +36,10 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
     private lateinit var heightTextView: TextView
     private lateinit var weightTextView: TextView
 
+    private lateinit var genderImageView: ImageView
+    private lateinit var genderTextView: TextView
+
+    private lateinit var spinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +62,16 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
     }
 
     private fun init() {
+
+        genderImageView = rootView.findViewById(R.id.fragment_third_gender_image_view)
+        if (getGenderSharedPreferences()=="Мужской")
+            genderImageView.setImageResource(R.drawable.man)
+        else
+            genderImageView.setImageResource(R.drawable.woman)
+
+        genderTextView = rootView.findViewById(R.id.third_fragment_gender_tv)
+        genderTextView.text = getGenderSharedPreferences()
+
         heightLinearLayout = rootView.findViewById(R.id.height_linear_layout)
         heightLinearLayout.setOnClickListener {
             val dialog = DialogFragmentHeight()
@@ -71,26 +86,31 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
         weightTextView = rootView.findViewById(R.id.third_fragment_weight_tv)
         heightTextView.text = (getSavedHeight()+" см")
         weightTextView.text = (getSavedWeight()+" кг")
+
+
+
+        spinner = rootView.findViewById(R.id.third_fragment_spinner)
+        ArrayAdapter.createFromResource(
+            rootView.context,
+            R.array.Languages,
+            R.layout.spinner_item_selected
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(R.layout.my_drop_down_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+        spinner.setSelection(getLanguageSharedPreferences(), true)
+        spinner.onItemSelectedListener = this
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ThirdFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ThirdFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        Toast.makeText(rootView.context, position.toString(), Toast.LENGTH_LONG).show()
+        saveUserLanguage(position)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
     }
 
     override fun sendInputHeight(input: String) {
@@ -101,6 +121,22 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
     override fun sendInputWeight(input: String) {
         weightTextView.text = ("$input кг")
         saveUserWeight(input)
+    }
+
+    private fun saveUserLanguage(language: Int) {
+        val sharedPref = rootView.context.getSharedPreferences(MY_APP_USER_ACTIVITY, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putInt(USER_LANGUAGE, language)
+        editor.apply()
+    }
+
+    private fun getLanguageSharedPreferences(): Int {
+        val sharedPreferences: SharedPreferences = rootView.context.getSharedPreferences(
+            MY_APP_USER_ACTIVITY,
+            Context.MODE_PRIVATE
+        )
+
+        return sharedPreferences.getInt(USER_LANGUAGE, 0)
     }
 
     private fun saveUserHeight(height: String?) {
@@ -134,4 +170,34 @@ class ThirdFragment : Fragment(), DialogFragmentHeight.OnInputSelected ,DialogFr
 
         return sharedPreferences.getString(USER_WEIGHT, "0") ?: "0"
     }
+
+    private fun getGenderSharedPreferences(): String {
+        val sharedPreferences: SharedPreferences = rootView.context.getSharedPreferences(
+            MY_APP_USER_ACTIVITY,
+            Context.MODE_PRIVATE
+        )
+
+        return sharedPreferences.getString(USER_GENDER, "default") ?: "default"
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment ThirdFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ThirdFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
 }

@@ -26,5 +26,7 @@
     <color name="gradient_center_color">#1676ee</color>
     <color name="gradient_end_color">#0588fa</color>
 
+    <color name="horizontal_line_new">#98afcd</color>
+
 
 </resources>

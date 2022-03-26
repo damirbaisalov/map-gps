@@ -21,6 +21,14 @@
             android:background="@color/horizontal_line_color"
             />
 
+        <ImageView
+            android:id="@+id/fragment_third_gender_image_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/man"
+            android:layout_marginTop="20dp"/>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,12 +49,13 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/height_linear_layout"
+                        android:id="@+id/gender_linear_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:background="@drawable/view_clicked_ripple"
-                        android:padding="10dp">
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -57,7 +66,56 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="Рост"
+                                android:text="@string/fragment_third_gender_text"
+                                android:textColor="@color/dark_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_weight="2"
+                                android:layout_gravity="start"
+                                />
+
+                            <TextView
+                                android:id="@+id/third_fragment_gender_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_third_man_text"
+                                android:textSize="14sp"
+                                android:textColor="@color/primary_app"
+                                android:layout_gravity="end"
+                                />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/horizontal_line_new"
+                        android:layout_marginHorizontal="20dp"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/height_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/view_clicked_ripple"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_third_height_text"
                                 android:textColor="@color/dark_text_color"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -80,7 +138,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Нужно для расчета калорий"
+                            android:text="@string/fragment_third_kkal_hint"
                             android:textSize="12sp"
                             android:layout_weight="2"
                             android:layout_gravity="start"
@@ -92,22 +150,22 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_marginHorizontal="10dp"
+                        android:background="@color/horizontal_line_new"
+                        android:layout_marginHorizontal="20dp"
                         />
 
                     <LinearLayout
                         android:id="@+id/weight_linear_layout"
-                        android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/view_clicked_ripple"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:layout_weight="3"
                             android:orientation="horizontal">
 
@@ -137,7 +195,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Нужно для расчета калорий"
+                            android:text="@string/fragment_third_kkal_hint"
                             android:textSize="12sp"
                             android:layout_weight="2"
                             android:layout_gravity="start"
@@ -145,7 +203,71 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/horizontal_line_new"
+                        android:layout_marginHorizontal="20dp"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/language_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/view_clicked_ripple"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_third_language_title_text_view"
+                                android:textColor="@color/dark_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_weight="2"
+                                android:layout_gravity="start"
+                                />
+
+                            <Spinner
+                                android:id="@+id/third_fragment_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:spinnerMode="dropdown"
+                                />
+
+                            <ImageView
+                                android:id="@+id/fragment_third_drop_down_arrow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_drop_down_arrow"
+                                />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fragment_third_language_hint_text_view"
+                            android:textSize="12sp"
+                            android:layout_gravity="start"
+                            />
+
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
 
             </LinearLayout>
 

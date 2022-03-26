@@ -12,7 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 
-const val MY_APP_USER_ACTIVITY = "MY_APP_USER_ACTIVITY"
+
 const val USER_HEIGHT = "USER_HEIGHT"
 const val USER_WEIGHT = "USER_WEIGHT"
 class ProfileDataActivity : AppCompatActivity() {
@@ -101,6 +101,7 @@ class ProfileDataActivity : AppCompatActivity() {
     private fun successReg() {
         saveUserData(heightEditText.text.toString(), weightEditText.text.toString())
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()
     }

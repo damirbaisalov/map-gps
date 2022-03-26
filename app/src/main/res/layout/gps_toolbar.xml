@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Местоположение"
+        android:text="@string/second_fragment_gps_toolbar_title_text"
         android:textColor="@color/dark_text_color"
         android:textSize="16sp"
         />
